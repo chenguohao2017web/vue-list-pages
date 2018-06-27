@@ -1,29 +1,29 @@
 <template>
-  <div class="detail">
-    <div class="banner">
-      <img src="../imgs/video.png" alt="">
-    </div>
-    <div class="content">
-      <div class="parage">澳大利亚是一个高度发达的资本主义国家，也是全球最美丽
-的国家之一，首都为堪培拉。作为南半球经济最发达的国家
-和全球第12大经济体、全球第四大农产品出口国，其也是多
-种矿产出口量全球第一的国家，因此被称作“坐骑在...展开</div>
-    </div>
+  <div class="detail" v-html="data" ref="detail">
   </div>
 </template>
-<style lang="less" scoped>
-.banner {
-  width: 100%;
-  img {
-    width: 100%;
+<script>
+import {handleDom} from '../../../common/fn'
+import { baseUrl } from "../../../common/api";
+import axios from "axios";
+export default {
+  data() {
+    return {
+      data: ""
+    };
+  },
+  created() {
+    let id = this.$route.params.id;
+    const url = `${baseUrl}/public/project-details?id=117`;
+    axios.get(url).then(res => {
+      if (res.status === 200) {
+        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+      }
+    });
+  },
+  mounted(){
+    handleDom(this.$refs.detail)
   }
-}
-.content {
-  margin-top: 20px;
-  .parage {
-    font-size: 26px;
-    color: #666666;
-    line-height: 1.5;
-  }
-}
-</style>
+};
+</script>
+

@@ -91,7 +91,7 @@
 }
 </style>
 <script>
-import {handleUrl} from '../../common/fn'
+import {handleUrl,handleDom} from '../../common/fn'
 import { baseUrl } from "../../common/api";
 import axios from "axios";
 export default {
@@ -115,24 +115,9 @@ export default {
       axios.get(url).then(res => {
         if (res.status === 200) {
           this.data = res.data.body;
-          this.handleDom();
+          handleDom(this.$refs.content);
         }
       });
-    },
-    handleDom() {
-      setTimeout(() => {
-        const el = this.$refs.content;
-        const arrP = el.children
-        for(let i = 0;i<arrP.length; i++) {
-          const elP = arrP[i]
-          elP.style.fontSize = '0.4rem'
-          elP.style.marginBottom = '0.2667rem'
-          const arrImg = elP.getElementsByTagName('img')
-          for(let i = 0;i<arrImg.length;i++) {
-            arrImg[i].style.width = '100%'
-          }
-        }
-      }, 30);
     }
   }
 };

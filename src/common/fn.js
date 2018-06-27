@@ -16,3 +16,19 @@ export function handleUrl() {
     return obj;
   }
 }
+
+export function handleDom(el) {
+  setTimeout(() => {
+    const arrP = el.children
+    for(let i = 0;i<arrP.length; i++) {
+      const elP = arrP[i]
+      elP.style.fontSize = '0.4rem'
+      elP.style.marginBottom = '0.2667rem'
+      const arrImg = elP.getElementsByTagName('img')
+      console.log(arrImg)
+      for(let i = 0;i<arrImg.length;i++) {
+        arrImg[i].style.width = '100%'
+      }
+    }
+  }, 50);
+}

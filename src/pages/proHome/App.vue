@@ -9,33 +9,9 @@
         <div class="top-nums">数量：{{data.minPriceAmt}}</div>
       </div>
       <div class="pro-content">
-        <div class="sudoku-item">
-          <div class="val">25万-30万</div>
-          <div class="key">最底认购额（元）</div>
-        </div>
-        <div class="sudoku-item">
-          <div class="val">25万-30万</div>
-          <div class="key">投资期限</div>
-        </div>
-        <div class="sudoku-item">
-          <div class="val">25万-30万</div>
-          <div class="key">国家或城市</div>
-        </div>
-        <div class="sudoku-item">
-          <div class="val">{{data.commissionCcy}}</div>
-          <div class="key">类型</div>
-        </div>
-        <div class="sudoku-item">
-          <div class="val">25万-30万</div>
-          <div class="key">募集期限</div>
-        </div>
-        <div class="sudoku-item heightLight">
-          <div class="val">25万-30万</div>
-          <div class="key">预计年华</div>
-        </div>
-        <div class="sudoku-item">
-          <div class="val">{{data.commissionValue}}</div>
-          <div class="key">佣金比例</div>
+        <div class="sudoku-item" v-for="(item,index) of sudokuList" :key="index">
+          <div class="val">{{item.val}}</div>
+          <div class="key">{{item.key}}</div>
         </div>
       </div>
     </div>
@@ -43,13 +19,10 @@
     <div class="counselor">
       <div class="title">项目顾问</div>
       <div class="counselor-content">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
-        <img src="./imgs/avator.png" alt="img">
+        <img :src="item" alt="img" 
+          v-for="(item,index) of imgList" 
+          :key="index"
+        >
       </div>
     </div>
     <div class="cut-off"></div>
@@ -73,10 +46,10 @@
     <div class="cut-off"></div>
     <div class="more-wrap">
       <div class="tab" ref="tab">
-        <router-link tag="div" to="/detail" class="tab-item">详情</router-link>
-        <router-link tag="div" to="/flow" class="tab-item">交易流程</router-link>
-        <router-link tag="div" to="/money" class="tab-item">佣金</router-link>
-        <router-link tag="div" to="/data" class="tab-item">项目资料</router-link>
+        <router-link tag="div" :to="'/detail/117'" class="tab-item">详情</router-link>
+        <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
+        <router-link tag="div" :to="'/money'" class="tab-item">佣金</router-link>
+        <router-link tag="div" :to="'/data'" class="tab-item">项目资料</router-link>
       </div>
       <div class="tab-content">
         <router-view />
@@ -162,13 +135,13 @@
   .counselor-content {
     display: flex;
     padding-bottom: 20px;
-    &:after {
-      content: "...";
-      display: block;
-      position: relative;
-      top: 40px;
-      right: -30px;
-    }
+    // &:after {
+    //   content: "...";
+    //   display: block;
+    //   position: relative;
+    //   top: 40px;
+    //   right: -30px;
+    // }
     img {
       width: 70px;
       height: 70px;
@@ -260,29 +233,155 @@
 }
 </style>
 <script>
-import {baseUrl} from '../../common/api'
-import axios from 'axios'
+import { baseUrl } from "../../common/api";
+import axios from "axios";
 export default {
-  data(){
+  data() {
     return {
-      data:{},
-      baseUrl:baseUrl
-    }
+      data: {},
+      baseUrl: baseUrl,
+      sudokuList: [],
+      imgList: []
+    };
   },
-  created(){
-    this.getData()
+  created() {
+    this.getData();
   },
   mounted() {
     this.changeTab();
   },
   methods: {
-    getData(){
-      const url = `${baseUrl}/public/project-details?id=117`
-      axios.get(url).then(res=>{
-        if(res.status===200) {
-          this.data = res.data.body
+    getData() {
+      // 九宫格
+      const url = `${baseUrl}/public/project-details?id=117`;
+      axios.get(url).then(res => {
+        if (res.status === 200) {
+          this.data = res.data.body;
+          this.handleSudokuList(res.data.body.projectType, res.data.body);
         }
-      })
+      });
+      // 项目头像
+      const url2 = `${baseUrl}/commons/project-consultant-list?id=108`;
+      axios.get(url2).then(res => {
+        if (res.status === 200) {
+          const resList = res.data.body;
+          const imgList = [];
+          for (let i = 0; i < resList.length; i++) {
+            imgList.push(baseUrl + resList[i].avatarImg);
+          }
+          this.imgList = imgList
+        }
+      });
+    },
+    handleSudokuList(type, data) {
+      const list = [];
+      if (type === 0) {
+        // 移民项目
+        const obj1 = {
+          key: "投资额(元)",
+          val: data.priceCcy + data.minPriceAmt + data.priceUnit + "起"
+        };
+        const obj2 = {
+          key: "办理周期",
+          val: data.projectPeriod + data.projectPeriodUnit
+        };
+        const obj3 = {
+          key: "国家或和城市",
+          val: data.projNations ? data.projNations[0].name : ""
+        };
+        const obj4 = {
+          key: "类型",
+          val: "移民项目"
+        };
+        const obj5 = {
+          key: "身份证类型",
+          val: data.identityType == 0 ? "绿卡" : "入籍"
+        };
+        const obj6 = {
+          key: "佣金",
+          val: "认证可见"
+        };
+        const obj7 = {
+          key: "定金",
+          val: data.depositAmt
+        };
+        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7);
+        this.sudokuList = list;
+      } else if (type === 1) {
+        // 房产项目
+        const obj1 = {
+          key: "投资额(元)",
+          val: data.priceCcy + data.minPriceAmt + data.priceUnit + "起"
+        };
+        const obj2 = {
+          key: "交房时间",
+          val: data.projectLineWithBLOBs.houseDeliveryTime
+        };
+        const obj3 = {
+          key: "国家或和城市",
+          val: data.projNations ? data.projNations[0].name : ""
+        };
+        const obj4 = {
+          key: "类型",
+          val: "房产项目"
+        };
+        const obj5 = {
+          key: "近一年涨幅",
+          val: data.projectLineWithBLOBs.houseAnnualIncreasePercent
+            ? data.projectLineWithBLOBs.houseAnnualIncreasePercent
+            : ""
+        };
+        const obj6 = {
+          key: "预期回报",
+          val: data.projectLineWithBLOBs.houseExpectedRecompense + "%"
+        };
+        const obj7 = {
+          key: "佣金比例",
+          val: "认证可见"
+        };
+        const obj8 = {
+          key: "定金",
+          val: data.depositAmt
+        };
+        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        this.sudokuList = list;
+      } else if (type === 2) {
+        // 投资项目
+        const obj1 = {
+          key: "最低认购额(元)",
+          val: data.priceCcy + data.minPriceAmt + data.priceUnit + "起"
+        };
+        const obj2 = {
+          key: "投资期限",
+          val: data.priceCcy + data.projectLineWithBLOBs.investDuration
+        };
+        const obj3 = {
+          key: "国家或和城市",
+          val: data.projNations ? data.projNations[0].name : ""
+        };
+        const obj4 = {
+          key: "类型",
+          val: "投资项目"
+        };
+        const obj5 = {
+          key: "募集期限",
+          val: data.projectLineWithBLOBs.investRaiseDuration
+        };
+        const obj6 = {
+          key: "预期年化",
+          val: data.projectLineWithBLOBs.investAnnualRatio
+        };
+        const obj7 = {
+          key: "佣金比例",
+          val: "认证可见"
+        };
+        const obj8 = {
+          key: "定金",
+          val: data.depositAmt
+        };
+        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        this.sudokuList = list;
+      }
     },
     changeTab() {
       const aDiv = this.$refs.tab.children;

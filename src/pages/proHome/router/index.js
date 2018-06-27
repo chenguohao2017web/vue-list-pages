@@ -10,7 +10,7 @@ export default new VueRouter({
     path: '/',
     redirect: '/detail'
   },{
-    path: '/detail',
+    path: '/detail/:id',
     component: Detail
   },{
     path: '/flow',
