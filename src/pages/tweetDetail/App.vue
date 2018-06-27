@@ -1,24 +1,26 @@
 <template>
-  <div class="circleDetail">
+  <div class="tweetDetail">
     <div class="header">推文详情</div>
     <div class="cut-off"></div>
     <div class="container">
       <div class="member-info">
         <div class="img">
-          <img src="./images/avator.png" alt="avator">
+          <img :src="baseUrl+data.consultantUrl" alt="avator">
         </div>
         <div class="desc">
           <div class="desc-top">
-            <div class="name">寒山潜龙</div>
-            <div class="pos">广州</div>
+            <div class="name">{{data.nickName}}</div>
+            <div class="pos">{{data.cityName}}</div>
           </div>
           <div class="desc-tips">
-            签名：个人感觉还剋吧！
+           {{data.title}}
           </div>
         </div>
       </div>
-      <div class="content">
-        <div class="parage">荷兰作为媲美北欧福利的花园国家，经济高度发达，教育资源丰富，13所大学位列全球200强，物价水平也低于多数欧洲国家，移民政策一经开放，便吸引众多国人申请，因其超高的性价比，更被称作"经济适用移民国"。近年来，国内的荷兰移民热度持续升温，2017年度申请人数、增长率均创新高。</div>
+      <div class="pic">
+        <img :src="baseUrl + data.profileBannerUrl" alt="banner">
+      </div>
+      <div class="content" v-html="data.content" ref="content">
       </div>
     </div>
   </div>
@@ -73,30 +75,65 @@
       }
     }
   }
+  .pic {
+    margin-top: 20px;
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
   .content {
     margin-top: 40px;
-    .parage {
-      font-size: 30px;
-      color: #333333;
-      line-height: 1.5;
-    }
+    font-size: 30px;
+    color: #333333;
+    line-height: 1.5;
   }
 }
 </style>
 <script>
-import axios from 'axios'
+import {handleUrl} from '../../common/fn'
+import { baseUrl } from "../../common/api";
+import axios from "axios";
 export default {
-  name: 'CicleDetail',
-  created(){
-    this.getData()
+  name: "CicleDetail",
+  created() {
+    this.query = handleUrl();
+    this.getData();
+  },
+  data() {
+    return {
+      data: {},
+      baseUrl: baseUrl,
+      query: {}
+    };
   },
   methods: {
-    getData(){
-      const url = `https://api.migrantju.cn/user/circles/1`
-      axios.get(url).then(res=>{
-        console.log(res)
-      })
+    getData() {
+      const url = `${baseUrl}/public/tweetsDetail?tweetsId=${
+        this.query.tweetsId
+      }`;
+      axios.get(url).then(res => {
+        if (res.status === 200) {
+          this.data = res.data.body;
+          this.handleDom();
+        }
+      });
+    },
+    handleDom() {
+      setTimeout(() => {
+        const el = this.$refs.content;
+        const arrP = el.children
+        for(let i = 0;i<arrP.length; i++) {
+          const elP = arrP[i]
+          elP.style.fontSize = '0.4rem'
+          elP.style.marginBottom = '0.2667rem'
+          const arrImg = elP.getElementsByTagName('img')
+          for(let i = 0;i<arrImg.length;i++) {
+            arrImg[i].style.width = '100%'
+          }
+        }
+      }, 30);
     }
   }
-}
+};
 </script>

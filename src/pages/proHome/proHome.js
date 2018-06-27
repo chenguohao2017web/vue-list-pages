@@ -5,12 +5,14 @@ import App from './App'
 import 'reset-css'
 import 'lib-flexible'
 import fastClick from 'fastclick'
+import router from './router'
 fastClick.attach(document.body)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   components: { App },
   template: '<App/>'
 })

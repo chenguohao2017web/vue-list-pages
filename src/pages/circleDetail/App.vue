@@ -21,6 +21,15 @@
         <div class="parage">荷兰作为媲美北欧福利的花园国家，经济高度发达，教育资源丰富，13所大学位列全球200强，物价水平也低于多数欧洲国家，移民政策一经开放，便吸引众多国人申请，因其超高的性价比，更被称作"经济适用移民国"。近年来，国内的荷兰移民热度持续升温，2017年度申请人数、增长率均创新高。</div>
       </div>
     </div>
+
+    <!-- modal -->
+    <transition name="animate">
+    <div class="modal" v-show="modalIsShow">
+        <transition name="drop">
+          <div class="modal-inner" v-show="modalIsShow">请登录</div>
+        </transition>
+    </div>
+    </transition>
   </div>
 </template>
 <style lang="less" scoped>
@@ -82,20 +91,53 @@
     }
   }
 }
+.modal {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: rgba(0,0,0,.5);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  .modal-inner {
+    width:600px;
+    height:100px;
+    background: #fff;
+    font-size: 40px;
+    color: #333;
+    text-align: center;
+    line-height: 100px;
+    border-radius:10px;
+  }
+}
+.animate-enter,.animate-leave-to {
+  opacity: 0;
+}
+.animate-enter-active,.animate-leave-active {
+  transition: all .3s;
+}
+.drop-enter,.drop-leave-to {
+  transform: translate3d(0,-50px,0)
+}
+.drop-enter-active,.drop-leave-active {
+  transition: all .3s linear;
+}
 </style>
 <script>
+import {baseUrl} from '../../common/api'
 import axios from 'axios'
 export default {
   name: 'CicleDetail',
-  created(){
-    this.getData()
+  mounted() {
+    setTimeout(()=>{
+      this.modalIsShow = true
+    },100)
   },
-  methods: {
-    getData(){
-      const url = `https://api.migrantju.cn/user/circles/1`
-      axios.get(url).then(res=>{
-        console.log(res)
-      })
+  data () {
+    return {
+      modalIsShow:false
     }
   }
 }
