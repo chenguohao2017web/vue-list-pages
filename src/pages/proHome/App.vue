@@ -46,16 +46,16 @@
     <div class="cut-off"></div>
     <div class="more-wrap">
       <div class="tab" ref="tab">
-        <router-link tag="div" :to="'/detail/117'" class="tab-item">详情</router-link>
+        <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
         <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
         <router-link tag="div" :to="'/money'" class="tab-item">佣金</router-link>
         <router-link tag="div" :to="'/data'" class="tab-item">项目资料</router-link>
       </div>
       <div class="tab-content">
-        <router-view />
+        <router-view :id="id"/>
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" @click="handleClick">
       <div class="btn agency">一键代理</div>
       <div class="btn order">创建订单</div>
     </div>
@@ -241,19 +241,39 @@ export default {
       data: {},
       baseUrl: baseUrl,
       sudokuList: [],
-      imgList: []
+      imgList: [],
+      id:''
     };
   },
   created() {
+    this.id = this.handleUrl().id - 0
     this.getData();
   },
   mounted() {
     this.changeTab();
   },
   methods: {
+    handleUrl() {
+      const url = location.href;
+      if(url.indexOf('?')>0) {
+        const querystr = url.split('?')[1].split('#')[0]
+        const obj = {}
+        if(querystr.indexOf('&') > 0) {
+          let queryArr = querystr.split('&')
+          for(let i =0;i<queryArr.length;i++) {
+            let itemStr = queryArr[i].split('=')
+            obj[itemStr[0]] = itemStr[1]
+          }
+        }else {
+          let str = querystr.split('=')
+          obj[str[0]] = str[1]
+        }
+        return obj
+      }
+    },
     getData() {
       // 九宫格
-      const url = `${baseUrl}/public/project-details?id=117`;
+      const url = `${baseUrl}/public/project-details?id=${this.id}`;
       axios.get(url).then(res => {
         if (res.status === 200) {
           this.data = res.data.body;
@@ -261,7 +281,7 @@ export default {
         }
       });
       // 项目头像
-      const url2 = `${baseUrl}/commons/project-consultant-list?id=108`;
+      const url2 = `${baseUrl}/commons/project-consultant-list?id=${this.id}`;
       axios.get(url2).then(res => {
         if (res.status === 200) {
           const resList = res.data.body;
@@ -390,6 +410,9 @@ export default {
           this.className = "tab-item router-link-active";
         };
       }
+    },
+    handleClick(){
+      window.open(`http://api.migrantju.cn/indexReg.html`)
     }
   }
 };

@@ -23,11 +23,16 @@ export function handleDom(el) {
     for(let i = 0;i<arrP.length; i++) {
       const elP = arrP[i]
       elP.style.fontSize = '0.4rem'
+      elP.style.lineHeight='1.5'
       elP.style.marginBottom = '0.2667rem'
       const arrImg = elP.getElementsByTagName('img')
-      console.log(arrImg)
       for(let i = 0;i<arrImg.length;i++) {
         arrImg[i].style.width = '100%'
+        arrImg[i].style.height = 'auto'
+      }
+      const arrSpan = elP.getElementsByTagName('span')
+      for(let i = 0;i<arrSpan.length;i++) {
+        arrSpan[i].style.fontSize = '0.3rem'
       }
     }
   }, 50);

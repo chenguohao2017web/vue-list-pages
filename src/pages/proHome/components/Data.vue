@@ -1,43 +1,36 @@
 <template>
-  <div class="detail">
-    <div class="item">
-      <div class="item-left">
-        <div class="name">房产项目相关资料.zip</div>
-        <div class="date">上传时间：2018-07-01</div>
-      </div>
-      <div class="item-right">下载</div>
-    </div>
-    <div class="item">
-      <div class="item-left">
-        <div class="name">房产项目相关资料.zip</div>
-        <div class="date">上传时间：2018-07-01</div>
-      </div>
-      <div class="item-right">下载</div>
-    </div>
-  </div>
+  <div class="data" v-html="data" ref="flow"></div>
 </template>
+<script>
+import { handleDom } from "../../../common/fn";
+import { baseUrl } from "../../../common/api";
+import axios from "axios";
+export default {
+  props: {
+    id: Number
+  },
+  data() {
+    return {
+      data: ""
+    };
+  },
+  created() {
+    const url = `${baseUrl}/public/project-details?id=${this.id}`;
+    axios.get(url).then(res => {
+      if (res.status === 200) {
+        this.data = res.data.body.projectLineWithBLOBs.commissionStatement
+        this.$nextTick(() => {
+          handleDom(this.$refs.flow);
+        });
+      }
+    });
+  }
+};
+</script>
+
 <style lang="less" scoped>
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 26px;
-  border-bottom: 5px solid #eeeeee;
-  font-size: 28px;
-  color: #333333;
-  margin: 20px 0;
-  .item-left {
-    .name {
-      margin-bottom: 20px;
-    }
-    .date {
-      font-size: 24px;
-      color: #999999;
-    }
-  }
-  .item-right {
-    padding: 14px 20px;
-    border:1px solid #333;
-  }
+.flow {
+  width: 100%;
+  overflow: hidden;
 }
 </style>
