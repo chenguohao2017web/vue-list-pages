@@ -51,17 +51,18 @@ export default {
       }
     },
     handleclick() {
-      if (this.id) {
-        if ((this.id = 2)) {
-          window.open(
-            "https://itunes.apple.com/us/app/移居平台/id1394521017?l=zh&ls=1&mt=8"
-          );
-        } else if ((this.id = 3)) {
-          window.open(
-            "https://itunes.apple.com/us/app/移居/id1394522776?l=zh&ls=1&mt=8"
-          );
-        }
-      }
+      // if (this.id) {
+      //   if ((this.id = 2)) {
+      //     window.open(
+      //       "https://itunes.apple.com/us/app/移居平台/id1394521017?l=zh&ls=1&mt=8"
+      //     );
+      //   } else if ((this.id = 3)) {
+      //     window.open(
+      //       "https://itunes.apple.com/us/app/移居/id1394522776?l=zh&ls=1&mt=8"
+      //     );
+      //   }
+      // }
+      window.open('http://api.migrantju.cn/indexReg.html')
     },
     getAxios() {
       const url =
