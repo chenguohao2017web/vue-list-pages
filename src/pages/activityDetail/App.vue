@@ -3,76 +3,65 @@
     <div class="activity-detail">
         <my-header title="活动详情"></my-header>
         <div class="banner-wrap">
-            <img src="./images/banner.png" alt="img">
+            <img :src="baseUrl+data.activityImage" alt="img">
         </div>
         <div class="cut-off"></div>
         <div class="activity-content">
             <div class="wrap theme">
                 <div class="item">
                     <div class="title">活动主题</div>
-                    <div class="text">189澳大利亚独立技术移民</div>
+                    <div class="text">{{data.activityName}}</div>
                 </div>
             </div>
             <div class="wrap nums">
                 <div class="item">
                     <div class="title">活动人数</div>
-                    <div class="text">100人</div>
+                    <div class="text">{{data.maxCount}}人</div>
                 </div>
                 <div class="item tc">
                     <div class="title">已报名人数</div>
-                    <div class="text">180人</div>
+                    <div class="text">{{data.appliedCount}}人</div>
                 </div>
                 <div class="item tr">
                     <div class="title">活动城市</div>
-                    <div class="text">华南-香港</div>
+                    <div class="text">{{data.cityName}}</div>
                 </div>
             </div>
             <div class="wrap date">
                 <div class="item">
                     <div class="title">活动日期</div>
-                    <div class="text">2018年5月1日</div>
+                    <div class="text">{{data.activityBeginDate}}</div>
                 </div>
                 <div class="item tr">
                     <div class="title">活动时间</div>
-                    <div class="text">10:30</div>
+                    <div class="text">{{data.activityBeginTime}}</div>
                 </div>
             </div>
             <div class="wrap pos">
                 <div class="item">
                     <div class="title">活动地点</div>
-                    <div class="text">香港路</div>
+                    <div class="text">{{data.activityPlace}}</div>
                 </div>
             </div>
             <div class="wrap need">
                 <div class="item">
                     <div class="title">活动需求<span class="title2">(需要邀请项目方律师在场)</span></div>
-                    <div class="text">需带合同</div>
+                    <div class="text">{{data.activityPreparation}}</div>
                 </div>
             </div>
             <div class="wrap introdu">
                 <div class="item">
                     <div class="title">活动简介</div>
-                    <div class="text textarea" :class="{showMore:!showMore}">
-                        澳洲189签证(独立技术移民)是一步到位的永居签证PR。如果申请人的澳洲189签证（独立技术移民澳洲189签证(独立技术移民)是一步到位的永居签证PR。如果申请人的澳洲189签证（独立技术移民
-                    </div>
+                    <div class="text" v-html="data.description" ref="parage"></div>
                 </div>
-                <div v-if="!showMore" class="more" @click="handleShowMore">展开</div>
-                <div v-else class="more" @click="handleShowMore">收起</div>
             </div>
         </div>
         <div class="cut-off"></div>
         <div class="join-list">
             <div class="title">报名列表</div>
             <div class="img-list">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
-                <img class="img" src="./images/banner.png" alt="img">
+                <img class="img" :src="item" alt="img" :key="index" v-for="(item,index) of data.applyUsers">
             </div>
-            <div class="more">...</div>
         </div>
         <div class="cut-off"></div>
         <div class="footer" @click="handleclick">
@@ -91,6 +80,9 @@
 </template>
 
 <script>
+import {handleDom} from '../../common/fn'
+import {baseUrl} from '../../common/api'
+import axios from 'axios'
 import qs from "qs";
 import MyHeader from "@/components/header/Header";
 export default {
@@ -100,14 +92,28 @@ export default {
   data() {
     return {
       showMore: false,
-      id: ""
+      id: "",
+      data:{},
+      baseUrl:baseUrl
     };
   },
   created() {
     const query = this.handleUrl();
     this.id = query.id;
+    this.getData()
   },
   methods: {
+    getData(){
+      const url = `${baseUrl}/public/activity-details?id=${this.id}`
+      axios.get(url).then(res=> {
+        if(res.status===200) {
+          this.data = res.data.body
+          this.$nextTick(()=>{
+            handleDom(this.$refs.parage)
+          })
+        }
+      })
+    },
     handleShowMore(e) {
       this.showMore = !this.showMore;
     },
@@ -161,20 +167,9 @@ export default {
     .tr {
       text-align: right;
     }
-    .textarea {
-      line-height: 1.5;
-
-      font-size: 30px;
-      position: relative;
-      &.showMore {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-    }
+    
     .item {
+      width:100%;
       .title {
         font-size: 28px;
         color: #666666;
@@ -189,6 +184,8 @@ export default {
         font-size: 38px;
         color: #333333;
         font-weight: 200;
+        width:100%;
+        overflow: hidden;
       }
     }
   }
