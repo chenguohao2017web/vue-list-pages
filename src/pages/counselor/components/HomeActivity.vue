@@ -1,73 +1,57 @@
 <template>
     <div class="home-activity">
-        <div class="activity-item">
+        <div class="activity-item" v-for="(item,index) of list" :key="index">
             <div class="item-img">
-                <img src="../images/banner.png" alt="img">
+                <img :src="baseUrl+ item.activityImage" alt="img">
             </div>
             <div class="item-info">
-                <div class="info-title">189澳大利亚独立技术移民</div>
+                <div class="info-title">{{item.activityName}}</div>
                 <div class="info-wrap info-pos">
                     <div class="icon"></div>
-                    <div class="text">广东省广州市丽丰中心...</div>
+                    <div class="text">{{item.nationName}}</div>
                 </div>
                 <div class="info-wrap info-date">
                     <div class="icon"></div>
-                    <div class="text">2018-02-12 10:30</div>
+                    <div class="text">{{item.activityTime}}</div>
                 </div>
                 <div class="info-wrap info-city">
                     <div class="icon"></div>
-                    <div class="text">广州</div>
+                    <div class="text">{{item.cityName}}</div>
                 </div>
             </div>
-            <div class="btn">报名</div>
-        </div>
-        <div class="activity-item">
-            <div class="item-img">
-                <img src="../images/banner.png" alt="img">
-            </div>
-            <div class="item-info">
-                <div class="info-title">189澳大利亚独立技术移民</div>
-                <div class="info-wrap info-pos">
-                    <div class="icon"></div>
-                    <div class="text">广东省广州市丽丰中心...</div>
-                </div>
-                <div class="info-wrap info-date">
-                    <div class="icon"></div>
-                    <div class="text">2018-02-12 10:30</div>
-                </div>
-                <div class="info-wrap info-city">
-                    <div class="icon"></div>
-                    <div class="text">广州</div>
-                </div>
-            </div>
-            <div class="btn">报名</div>
-        </div>
-        <div class="activity-item">
-            <div class="item-img">
-                <img src="../images/banner.png" alt="img">
-            </div>
-            <div class="item-info">
-                <div class="info-title">189澳大利亚独立技术移民</div>
-                <div class="info-wrap info-pos">
-                    <div class="icon"></div>
-                    <div class="text">广东省广州市丽丰中心...</div>
-                </div>
-                <div class="info-wrap info-date">
-                    <div class="icon"></div>
-                    <div class="text">2018-02-12 10:30</div>
-                </div>
-                <div class="info-wrap info-city">
-                    <div class="icon"></div>
-                    <div class="text">广州</div>
-                </div>
-            </div>
-            <div class="btn">报名</div>
+            <div class="btn" @click="handleClick">报名</div>
         </div>
     </div>
 </template>
 <script>
+import {baseUrl} from '@/common/api'
+import axios from "axios";
 export default {
-    name: 'HomeActivity'
+    data(){
+        return {
+            list:[],
+            baseUrl:baseUrl
+        }
+    },
+    props:{
+        consultantId:Number
+    },
+    mounted(){
+        this.getData()
+    },
+    methods: {
+        getData(){
+            const url = `${baseUrl}/public/get-initiate-activities?consultantId=${this.consultantId}&page=1&pageSize=10`
+            axios.get(url).then(res=>{
+                if(res.status===200) {
+                    this.list = res.data.body.records
+                }
+            })
+        },
+        handleClick(){
+            window.open(`http://api.migrantju.cn/indexReg.html`)
+        }
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -84,6 +68,7 @@ export default {
             margin-right:20px;
             img {
                 width:100%;
+                height:100%;
             }
         }
         .item-info {

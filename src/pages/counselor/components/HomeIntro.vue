@@ -3,6 +3,7 @@
     </div>
 </template>
 <script>
+import {baseUrl} from '@/common/api'
 import axios from "axios";
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
   },
   data() {
     return {
-      baseUrl: "https://api.migrantju.cn",
+      baseUrl: baseUrl,
       data: ""
     };
   },
@@ -19,12 +20,12 @@ export default {
   },
   methods: {
     getData() {
-      const url = `${this.baseUrl}/public/getConsultantTweets?consultantId=${
+      const url = `${baseUrl}/public/getConsultantTweets?consultantId=${
         this.consultantId
       }`;
       axios.get(url).then(res => {
         if (res.status === 200) {
-          this.data = res.data.body[0];
+          this.data = res.data.body.introduction;
           this.$nextTick(() => {
               setTimeout(() => {
                 const arrP = this.$refs.content.children;

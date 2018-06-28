@@ -4,14 +4,14 @@
     <div class="cut-off"></div>
     <div class="container">
       <div class="title">
-        阿姆斯特丹市长见面会重庆站
+        {{data.caseTitle}}
       </div>
       <div class="title-info">
-        <div class="time">2017.10.10</div>
-        <div class="nums">123</div>
+        <div class="time">{{data.publishTime}}</div>
+        <div class="nums">{{data.viewCount}}</div>
       </div>
       <div class="content">
-        <div class="parage">荷兰作为媲美北欧福利的花园国家，经济高度发达，教育资源丰富，13所大学位列全球200强，物价水平也低于多数欧洲国家，移民政策一经开放，便吸引众多国人申请，因其超高的性价比，更被称作"经济适用移民国"。近年来，国内的荷兰移民热度持续升温，2017年度申请人数、增长率均创新高。</div>
+        <div class="parage" v-html="data.content" ref="parage"></div>
       </div>
     </div>
   </div>
@@ -43,13 +43,15 @@
     font-size: 26px;
     color: #999999;
     .time {
-      margin-right:50px;
+      margin-right: 50px;
     }
   }
   .content {
     margin-top: 40px;
     .parage {
       font-size: 30px;
+      width: 100%;
+      overflow: hidden;
       color: #333333;
       line-height: 1.5;
       text-indent: 60px;
@@ -57,3 +59,54 @@
   }
 }
 </style>
+<script>
+import { handleDom, handleUrl } from "@/common/fn";
+import { baseUrl } from "@/common/api";
+import axios from "axios";
+export default {
+  data() {
+    return {
+      data: {},
+      caseId: ""
+    };
+  },
+  created() {
+    const query = handleUrl();
+    this.caseId = query.caseId;
+    this.getData();
+  },
+  methods: {
+    getData() {
+      const url = `${baseUrl}/public/getSuccessCaseDetail?caseId=${
+        this.caseId
+      }`;
+      axios.get(url).then(res => {
+        if (res.status === 200) {
+          this.data = res.data.body;
+          this.$nextTick(() => {
+            handleDom(this.$refs.parage);
+          });
+        }
+      });
+    },
+    handleDom(el) {
+      const arrP = el.children;
+      for (let i = 0; i < arrP.length; i++) {
+        let p = arrP[i];
+        p.style.fontSize = "0.4rem";
+        p.style.marginBottom = "10px";
+        const inner = p.children;
+        for (let i = 0; i < inner.length; i++) {
+          let item = inner[i];
+          if (item.nodeName === "SPAN") {
+            item.style.fontSize = ".4rem";
+          } else if (item.nodeName === "IMG") {
+            item.style.display = "flex";
+            item.style.width = "100%";
+          }
+        }
+      }
+    }
+  }
+};
+</script>

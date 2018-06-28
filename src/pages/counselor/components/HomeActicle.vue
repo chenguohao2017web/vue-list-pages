@@ -1,21 +1,22 @@
 <template>
     <div class="home-acticle">
-        <div class="acticle-item">
+        <div class="acticle-item" v-for="(item,index) of list" :key="index">
             <div class="item-title">
                 <div class="title-info">
                     <div class="avator">
-                        <img src="../images/banner.png" alt="img">
+                        <img :src="baseUrl + item.consultantUrl" alt="img">
                     </div>
-                    <div class="name">xxx</div>
+                    <div class="name">{{item.consultantNickName}}</div>
                 </div>
                 <div class="more"></div>
             </div>
-            <div class="text-header">189澳大利亚独立技术一移民</div>
-            <div class="parage">打瞌睡JFK劳动时间风口浪尖迪斯科浪费建设靠大家风口浪尖上的开发建设打开链接数据库的JFK的历史JFK</div>
+            <div class="text-header">{{item.title}}</div>
+            <div class="parage" v-html="item.content" ref="parage"></div>
         </div>
     </div>
 </template>
 <script>
+import {handleDom} from '@/common/fn'
 import axios from 'axios'
 export default {
   props:{
@@ -24,16 +25,22 @@ export default {
   data() {
     return {
         baseUrl:"https://api.migrantju.cn",
+        list:[]
     };
   },
-  created(){
+  mounted(){
     this.getData()
   },
   methods: {
     getData() {
-      const url = `${this.baseUrl}/public/get-initiate-activities?consultantId=${this.consultantId}&page=1&pageSize=10`;
+      const url = `${this.baseUrl}/public/getConsultantTweets?consultantId=${this.consultantId}`;
       axios.get(url).then(res=> {
-        console.log(res)
+        if(res.status===200) {
+          this.list = res.data.body
+          this.$nextTick(()=>{
+            handleDom(this.$refs.parage)
+          })
+        }
       })
     }
   }
