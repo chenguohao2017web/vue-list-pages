@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="article-detail">
-        <my-header title="文章详情"></my-header>
-        <div class="cut-off"></div>
+        <!-- <my-header title="文章详情"></my-header> -->
+        <!-- <div class="cut-off"></div> -->
         <div class="content">
             <div class="title">{{axiosData.title}}</div>
             <div class="deta">
@@ -25,7 +25,7 @@
 import {handleDom} from '../../common/fn'
 import qs from 'qs'
 import axios from "axios";
-import MyHeader from "@/components/header/Header";
+// import MyHeader from "@/components/header/Header";
 export default {
   data() {
     return {
@@ -34,9 +34,9 @@ export default {
       articleid: ""
     };
   },
-  components: {
-    MyHeader
-  },
+  // components: {
+  //   MyHeader
+  // },
   created() {
     const query = this.handleUrl();
     this.id = query.id

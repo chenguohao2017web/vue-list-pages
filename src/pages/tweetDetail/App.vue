@@ -1,6 +1,6 @@
 <template>
   <div class="tweetDetail">
-    <div class="header">推文详情</div>
+    <!-- <div class="header">推文详情</div> -->
     <div class="cut-off"></div>
     <div class="container">
       <div class="member-info">

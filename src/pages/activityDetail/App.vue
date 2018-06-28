@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="activity-detail">
-        <my-header title="活动详情"></my-header>
+        <!-- <my-header title="活动详情"></my-header> -->
         <div class="banner-wrap">
             <img :src="baseUrl+data.activityImage" alt="img">
         </div>
@@ -84,11 +84,11 @@ import {handleDom} from '../../common/fn'
 import {baseUrl} from '../../common/api'
 import axios from 'axios'
 import qs from "qs";
-import MyHeader from "@/components/header/Header";
+// import MyHeader from "@/components/header/Header";
 export default {
-  components: {
-    MyHeader
-  },
+  // components: {
+  //   MyHeader
+  // },
   data() {
     return {
       showMore: false,

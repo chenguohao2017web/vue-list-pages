@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <my-header title="顾问主页"></my-header>
+        <!-- <my-header title="顾问主页"></my-header> -->
         <div class="header" ref="header">
             <div class="container">
                 <div class="header-avator">
@@ -109,13 +109,13 @@
 </template>
 <script>
 import axios from "axios";
-import MyHeader from "@/components/header/Header";
+// import MyHeader from "@/components/header/Header";
 import { baseUrl } from "../../common/api";
 export default {
   name: "Home",
-  components: {
-    MyHeader
-  },
+  // components: {
+  //   MyHeader
+  // },
   created() {
     const obj = this.handleUrl();
     this.id = obj.id;
@@ -250,7 +250,7 @@ export default {
         align-items: center;
         .name {
           font-size: 36px;
-          color: #fff;
+          color: #333;
           margin-right: 20px;
         }
         .icon {
@@ -272,7 +272,7 @@ export default {
         }
         .nums {
           font-size: 26px;
-          color: #fff;
+          color: #333;
         }
       }
     }

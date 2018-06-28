@@ -1,7 +1,7 @@
 <template>
   <div class="circleDetail">
-    <div class="header">圈子详情</div>
-    <div class="cut-off"></div>
+    <!-- <div class="header">圈子详情</div> -->
+    <!-- <div class="cut-off"></div> -->
     <div class="container">
       <div class="member-info">
         <div class="img">

@@ -1,7 +1,7 @@
 <template>
   <div class="case">
-    <div class="header">案例详情</div>
-    <div class="cut-off"></div>
+    <!-- <div class="header">案例详情</div> -->
+    <!-- <div class="cut-off"></div> -->
     <div class="container">
       <div class="title">
         {{data.caseTitle}}
@@ -32,7 +32,6 @@
 .container {
   padding: 0 30px;
   .title {
-    margin-top: 40px;
     font-size: 42px;
     color: #333333;
     line-height: 1.5;
