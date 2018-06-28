@@ -26,7 +26,7 @@
     <transition name="animate">
     <div class="modal" v-show="modalIsShow">
         <transition name="drop">
-          <div class="modal-inner" v-show="modalIsShow">请登录</div>
+          <div class="modal-inner" v-show="modalIsShow" @click="handleClick">请登录</div>
         </transition>
     </div>
     </transition>
@@ -138,6 +138,11 @@ export default {
   data () {
     return {
       modalIsShow:false
+    }
+  },
+  methods: {
+    handleClick(){
+      window.open('http://api.migrantju.cn/indexReg.html')
     }
   }
 }
