@@ -43,12 +43,12 @@
                     <div class="text">{{data.activityPlace}}</div>
                 </div>
             </div>
-            <div class="wrap need">
+            <!-- <div class="wrap need">
                 <div class="item">
                     <div class="title">活动需求<span class="title2">(需要邀请项目方律师在场)</span></div>
                     <div class="text">{{data.activityPreparation}}</div>
                 </div>
-            </div>
+            </div> -->
             <div class="wrap introdu">
                 <div class="item">
                     <div class="title">活动简介</div>
