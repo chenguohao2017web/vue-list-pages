@@ -31,7 +31,8 @@ export default {
     return {
       axiosData: {},
       id: "",
-      articleid: ""
+      articleid: "",
+      inviteCode:''
     };
   },
   // components: {
@@ -40,6 +41,7 @@ export default {
   created() {
     const query = this.handleUrl();
     this.id = query.id
+    this.inviteCode = query.inviteCode
     this.articleid = query.articleid
     this.getAxios();
   },
@@ -62,7 +64,7 @@ export default {
       //     );
       //   }
       // }
-      window.open('http://api.migrantju.cn/indexReg.html')
+     window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     },
     getAxios() {
       const url =

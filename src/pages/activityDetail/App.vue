@@ -94,12 +94,14 @@ export default {
       showMore: false,
       id: "",
       data:{},
-      baseUrl:baseUrl
+      baseUrl:baseUrl,
+      inviteCode: ''
     };
   },
   created() {
     const query = this.handleUrl();
     this.id = query.id;
+    this.inviteCode = query.inviteCode
     this.getData()
   },
   methods: {
@@ -135,7 +137,7 @@ export default {
       //     );
       //   }
       // }
-      window.open('http://api.migrantju.cn/indexReg.html')
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     }
   }
 };

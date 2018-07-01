@@ -242,11 +242,13 @@ export default {
       baseUrl: baseUrl,
       sudokuList: [],
       imgList: [],
+      inviteCode:'',
       id:''
     };
   },
   created() {
     this.id = this.handleUrl().id - 0
+    this.inviteCode = this.handleUrl().inviteCode
     this.getData();
   },
   mounted() {
@@ -412,7 +414,7 @@ export default {
       }
     },
     handleClick(){
-      window.open(`http://api.migrantju.cn/indexReg.html`)
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     }
   }
 };

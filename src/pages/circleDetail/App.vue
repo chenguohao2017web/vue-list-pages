@@ -126,6 +126,7 @@
 }
 </style>
 <script>
+import qs from 'qs'
 import {baseUrl} from '../../common/api'
 import axios from 'axios'
 export default {
@@ -137,12 +138,20 @@ export default {
   },
   data () {
     return {
-      modalIsShow:false
+      modalIsShow:false,
+      inviteCode: ''
+    }
+  },
+  created(){
+    const url = location.href
+    if(url.indexOf('?')>0){
+      let query = url.split('?')[1]
+      this.inviteCode = qs.parse(query).inviteCode
     }
   },
   methods: {
     handleClick(){
-      window.open('http://api.migrantju.cn/indexReg.html')
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     }
   }
 }

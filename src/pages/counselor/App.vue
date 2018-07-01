@@ -119,11 +119,13 @@ export default {
   created() {
     const obj = this.handleUrl();
     this.id = obj.id;
+    this.inviteCode = obj.inviteCode
     this.consultantId = obj.consultantId - 0;
     this.getData();
   },
   data() {
     return {
+      inviteCode: '',
       tabList: [
         {
           linkUrl: "/intro",
@@ -203,7 +205,7 @@ export default {
       //     );
       //   }
       // }
-      window.open('http://api.migrantju.cn/indexReg.html')
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     }
   }
 };
