@@ -15,7 +15,7 @@ export default {
       data: ""
     };
   },
-  created() {
+  mounted() {
     this.getData();
   },
   methods: {

@@ -1,15 +1,15 @@
 <template>
     <div class="home">
-        <!-- <my-header title="顾问主页"></my-header> -->
         <div class="header" ref="header">
             <div class="container">
                 <div class="header-avator">
                     <img :src="baseUrl + data.avatarImg" alt="avator">
+                    <div class="text">已认证</div>
                 </div>
                 <div class="header-content">
                     <div class="top">
                         <div class="top-left">
-                            <div class="name">{{data.userName}}</div>
+                            <div class="name">{{data.nickName}}</div>
                             <div class="icon"></div>
                         </div>
                         <div class="top-right">
@@ -25,12 +25,22 @@
                         <div class="item">
                             <div class="icon"></div>
                             <div class="key">从业年限</div>
-                            <div class="val">{{data.serviceCount}}年</div>
+                            <div class="val">{{data.workingExperience}}年</div>
                         </div>
                         <div class="item">
                             <div class="key">咨询量</div>
                             <div class="val">{{data.consultCount}}</div>
                         </div>
+                    </div>
+                    <div class="other">
+                      <div class="item">
+                        <div class="key">擅长的国家:</div>
+                        <div class="content">
+                          <span class="span" v-for="(item,index) of data.expertNationList" :key="index">
+                            {{item.name}}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -43,9 +53,9 @@
                 </div>
                 <div class="btn-group">
                     <div class="btn" 
-                    :class="{active:index==currentIndex}"
-                    v-for="(item,index) of data.categoryList" 
-                    :key="index">{{item.categoryName}}</div>
+                    :class="{active:index==currentIndex,featured:index==data.tagList.length-1}"
+                    v-for="(item,index) of data.tagList" 
+                    :key="index">{{item.tagName}}</div>
                 </div>
             </div>
         </div>
@@ -64,24 +74,27 @@
                 <div class="item" v-for="(item,index) of data.projectSolrModels" :key="index">
                     <div class="item-top">
                         <div class="item-icon">
-                            <img :src="baseUrl+ '/images/icons/'+ item.nationCodes + '.png'" alt="img">
+                            <img :src="baseUrl+ '/images/icons/'+ item.nationList[0].nationCode + '.png'" alt="img">
                         </div>
                         <div class="item-info">
                             <div class="title">{{item.projectName}}</div>
-                            <div class="nums">收藏数：{{item.agentCount}}</div>
+                            <div class="nums">收藏数：{{item.favCount}}</div>
                         </div>
                         <!-- <div class="item-new"></div> -->
+                        <div @click="handleclick" class="item-save">收藏</div>
                     </div>
                     <div class="item-content">
                         <div class="item-content-img">
-                            <div class="tap">房产项目</div>
+                            <div class="tap" v-if="item.projectType==1">房产项目</div>
+                            <div class="tap" v-if="item.projectType==0">移民项目</div>
+                            <div class="tap" v-if="item.projectType==2">投资项目</div>
                             <img :src="baseUrl + item.projectImagePath" alt="img">
                         </div>
                         <div class="item-content-info">
                             <div class="info-title">{{item.projectName}}</div>
-                            <div class="info-desc">价格：{{item.minPriceAmt}}-{{item.maxPriceAmt}}</div>
-                            <div class="info-desc">近一年涨幅：10%-50%</div>
-                            <div class="info-desc">预期回报：{{item.minPriceAmt}}{{item.priceUnit}}</div>
+                            <div class="info-desc">价格：{{item.priceCcy}}{{item.minPriceAmt.split(',')[0]}}{{item.priceUnit}}</div>
+                            <div class="info-desc">近一年涨幅：{{item.houseAnnualIncreasePercent}}%</div>
+                            <div class="info-desc">预期回报：{{item.houseExpectedRecompense}}%</div>
                         </div>
                     </div>
                 </div>
@@ -109,23 +122,19 @@
 </template>
 <script>
 import axios from "axios";
-// import MyHeader from "@/components/header/Header";
 import { baseUrl } from "../../common/api";
 export default {
   name: "Home",
-  // components: {
-  //   MyHeader
-  // },
   created() {
     const obj = this.handleUrl();
     this.id = obj.id;
-    this.inviteCode = obj.inviteCode
+    this.inviteCode = obj.inviteCode;
     this.consultantId = obj.consultantId - 0;
     this.getData();
   },
   data() {
     return {
-      inviteCode: '',
+      inviteCode: "",
       tabList: [
         {
           linkUrl: "/intro",
@@ -159,12 +168,10 @@ export default {
         if (res.status === 200) {
           this.data = res.data.body;
           this.$nextTick(() => {
-            setTimeout(() => {
-              this.$refs.header.style.backgroundImage = `url(${baseUrl +
-                res.data.body.consultantBackgroundUrl})`;
-              this.$refs.header.style.backgroundSize = "100%";
-              this.$refs.header.style.backgroundRepeat = "no-repeat";
-            }, 50);
+            this.$refs.header.style.backgroundImage = `url(${baseUrl +
+              res.data.body.consultantBackgroundUrl})`;
+            this.$refs.header.style.backgroundSize = "100% 3.3333rem";
+            this.$refs.header.style.backgroundRepeat = "no-repeat";
           });
         }
       });
@@ -194,18 +201,9 @@ export default {
       }
     },
     handleclick() {
-      // if (this.id) {
-      //   if ((this.id = 2)) {
-      //     window.open(
-      //       "https://itunes.apple.com/us/app/移居平台/id1394521017?l=zh&ls=1&mt=8"
-      //     );
-      //   } else if ((this.id = 3)) {
-      //     window.open(
-      //       "https://itunes.apple.com/us/app/移居/id1394522776?l=zh&ls=1&mt=8"
-      //     );
-      //   }
-      // }
-      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
+      window.open(
+        `http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`
+      );
     }
   }
 };
@@ -219,26 +217,31 @@ export default {
 }
 .cut-off {
   width: 100%;
-  height: 30px;
-  background: #f2f6f7;
+  height: 20px;
+  background: #eee;
 }
 .header {
-  padding-top: 160px;
+  padding-top: 180px;
   width: 100%;
-  background-size: 100%;
   & .container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
   }
   .header-avator {
     margin-right: 20px;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .text {
+      margin-top: 15px;
+      color:#c3292b;
+      font-size: 24px;
+    }
     img {
-      width: 100%;
-      height: 100%;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
     }
   }
   .header-content {
@@ -247,12 +250,13 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding:20px 0;
       .top-left {
         display: flex;
         align-items: center;
         .name {
-          font-size: 36px;
-          color: #333;
+          font-size: 30px;
+          color: #fff;
           margin-right: 20px;
         }
         .icon {
@@ -274,12 +278,12 @@ export default {
         }
         .nums {
           font-size: 26px;
-          color: #333;
+          color: #fff;
         }
       }
     }
     .mid {
-      margin: 30px 0;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       .text {
@@ -318,6 +322,14 @@ export default {
           font-size: 30px;
           color: #333333;
         }
+      }
+    }
+    .other .item {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap:wrap;
+      .key {
+        margin-right: 10px;
       }
     }
   }
@@ -362,14 +374,20 @@ export default {
       width: 100px;
       height: 36px;
       font-size: 20px;
-      color: #666666;
+      color: #3d6b7d;
       line-height: 36px;
       text-align: center;
       background: #dddddd;
-      margin-right: 10px;
+      margin-right: 20px;
+      background:#9fcbd0;
+      
       &.active {
         color: #c3292b;
         background: #ffe5e5;
+      }
+      &.featured {
+        background:#ccc;
+        color:#333;
       }
     }
   }
@@ -383,7 +401,7 @@ export default {
     .icon {
       width: 40px;
       height: 35px;
-      background: url(./images/icon_Collection.png);
+      background: url(./images/icon_share.png);
       background-size: 100% 100%;
       margin-right: 30px;
     }
@@ -395,16 +413,16 @@ export default {
     color: #333333;
     height: 84px;
     line-height: 84px;
-    &:after {
-      content: "";
-      display: block;
-      width: 44px;
-      height: 6px;
-      background: #c3292b;
-      border-radius: 5px;
-      position: relative;
-      left: 35px;
-    }
+    // &:after {
+    //   content: "";
+    //   display: block;
+    //   width: 44px;
+    //   height: 6px;
+    //   background: #c3292b;
+    //   border-radius: 5px;
+    //   position: relative;
+    //   left: 35px;
+    // }
   }
   .item {
     padding: 30px 0 30px 0;
@@ -427,6 +445,7 @@ export default {
       display: flex;
       align-items: flex-start;
       border-bottom: 1px solid #ccc;
+      position: relative;
       .item-icon {
         width: 80px;
         height: 54px;
@@ -450,11 +469,14 @@ export default {
           color: #999999;
         }
       }
-      .item-new {
-        width: 59px;
-        height: 16px;
-        background: url(./images/icon_new2.png);
-        background-size: 100% 100%;
+      .item-save {
+        position:absolute;
+        right:0;
+        bottom:20px;
+        padding:8px 26px;
+        color: #fff;
+        font-size: 24px;
+        background:#c3292b;
       }
     }
     .item-content {
@@ -489,7 +511,7 @@ export default {
           margin-bottom: 10px;
         }
         .info-desc {
-          color: #999999;
+          color: #333;
           font-size: 20px;
           margin-top: 24px;
         }
