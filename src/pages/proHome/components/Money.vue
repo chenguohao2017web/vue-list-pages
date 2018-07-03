@@ -15,10 +15,11 @@ export default {
     };
   },
   created() {
-    const url = `${baseUrl}/public/project-details?id=${this.id}`;
+    let url = `${baseUrl}/public/project-details?id=${this.id}`
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectProcedure
+        this.data = res.data.body.projectLineWithBLOBs.commissionStatement
+        this.data = ""
         this.$nextTick(() => {
           handleDom(this.$refs.flow);
         });

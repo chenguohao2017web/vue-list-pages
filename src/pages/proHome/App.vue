@@ -48,16 +48,16 @@
       <div class="tab" ref="tab">
         <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
         <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
-        <router-link tag="div" :to="'/money'" class="tab-item">佣金</router-link>
-        <router-link tag="div" :to="'/data'" class="tab-item">项目资料</router-link>
+        <!-- <router-link tag="div" :to="'/money'" class="tab-item">佣金</router-link>
+        <router-link tag="div" :to="'/data'" class="tab-item">项目资料</router-link> -->
       </div>
       <div class="tab-content">
         <router-view :id="id"/>
       </div>
     </div>
     <div class="footer" @click="handleClick">
-      <div class="btn agency">一键代理</div>
-      <div class="btn order">创建订单</div>
+      <!-- <div class="btn agency">一键代理</div> -->
+      <div class="btn agency">创建订单</div>
     </div>
   </div>
 </template>

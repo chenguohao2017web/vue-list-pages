@@ -19,7 +19,7 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectShowcase
+        this.data = res.data.body.projectLineWithBLOBs.projectProcedure
         this.$nextTick(() => {
           handleDom(this.$refs.flow);
         });
