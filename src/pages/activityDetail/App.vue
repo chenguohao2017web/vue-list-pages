@@ -60,7 +60,7 @@
         <div class="join-list">
             <div class="title">报名列表</div>
             <div class="img-list">
-                <img class="img" :src="item" alt="img" :key="index" v-for="(item,index) of data.applyUsers">
+                <img class="img" :src="baseUrl + item.avatarImg" alt="img" :key="index" v-for="(item,index) of data.applyUsers">
             </div>
         </div>
         <div class="cut-off"></div>
@@ -95,7 +95,8 @@ export default {
       id: "",
       data:{},
       baseUrl:baseUrl,
-      inviteCode: ''
+      inviteCode: '',
+      baseUrl : baseUrl
     };
   },
   created() {
