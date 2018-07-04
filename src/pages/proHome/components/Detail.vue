@@ -19,7 +19,21 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+        if (res.data.body.projectType === 0) {
+          // 移民
+          this.data =
+            res.data.body.projectLineWithBLOBs.immigrantApplyRequirement;
+        } else if (res.data.body.projectType === 1) {
+          // 房产
+          this.data = res.data.body.projectLineWithBLOBs.houseDecorateSituation;
+          this.data += res.data.body.projectLineWithBLOBs.superiority;
+          this.data += res.data.body.projectLineWithBLOBs.houseProperty;
+        } else {
+          // 投资
+          this.data = res.data.body.projectLineWithBLOBs.projectShowcase;
+        }
+
+        this.data += res.data.body.projectLineWithBLOBs.projectDecription;
         this.$nextTick(() => {
           handleDom(this.$refs.detail);
         });
