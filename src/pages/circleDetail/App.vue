@@ -33,6 +33,9 @@
   </div>
 </template>
 <style lang="less" scoped>
+.circleDetail {
+  
+}
 .header {
   height: 90px;
   line-height: 90px;
@@ -46,6 +49,7 @@
   background: #f2f6f7;
 }
 .container {
+  filter: blur(20px);
   padding: 0 30px;
   .member-info {
     margin-top: 40px;
@@ -92,67 +96,79 @@
   }
 }
 .modal {
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background: rgba(0,0,0,.5);
-  display:flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .8);
+  display: flex;
   justify-content: center;
   align-items: center;
   .modal-inner {
-    width:600px;
-    height:100px;
+    width: 600px;
+    height: 100px;
     background: #fff;
     font-size: 40px;
     color: #333;
     text-align: center;
     line-height: 100px;
-    border-radius:10px;
+    border-radius: 10px;
+    
   }
 }
-.animate-enter,.animate-leave-to {
+.animate-enter,
+.animate-leave-to {
   opacity: 0;
 }
-.animate-enter-active,.animate-leave-active {
-  transition: all .3s;
+.animate-enter-active,
+.animate-leave-active {
+  transition: all 0.3s;
 }
-.drop-enter,.drop-leave-to {
-  transform: translate3d(0,-50px,0)
+.drop-enter,
+.drop-leave-to {
+  transform: translate3d(0, -50px, 0);
 }
-.drop-enter-active,.drop-leave-active {
-  transition: all .3s linear;
+.drop-enter-active,
+.drop-leave-active {
+  transition: all 0.3s linear;
 }
 </style>
 <script>
-import qs from 'qs'
-import {baseUrl} from '../../common/api'
-import axios from 'axios'
+import qs from "qs";
+import { baseUrl } from "../../common/api";
+import axios from "axios";
 export default {
-  name: 'CicleDetail',
+  name: "CicleDetail",
   mounted() {
-    setTimeout(()=>{
-      this.modalIsShow = true
-    },100)
+    setTimeout(() => {
+      this.modalIsShow = true;
+    }, 100);
   },
-  data () {
+  data() {
     return {
-      modalIsShow:false,
-      inviteCode: ''
-    }
+      modalIsShow: false,
+      inviteCode: "",
+      appId:''
+    };
   },
-  created(){
-    const url = location.href
-    if(url.indexOf('?')>0){
-      let query = url.split('?')[1]
-      this.inviteCode = qs.parse(query).inviteCode
+  created() {
+    const url = location.href;
+    if (url.indexOf("?") > 0) {
+      let query = url.split("?")[1];
+      this.inviteCode = qs.parse(query).inviteCode;
+      this.appId = qs.parse(query).appId
     }
+    axios.get(`${baseUrl}/user/circles/${this.appId}`).then(res => {
+      console.log(res);
+    });
   },
   methods: {
-    handleClick(){
-      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
+    handleClick() {
+      window.open(
+        `http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`
+      );
     }
   }
-}
+};
 </script>

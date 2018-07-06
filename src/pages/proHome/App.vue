@@ -242,13 +242,15 @@ export default {
       baseUrl: baseUrl,
       sudokuList: [],
       imgList: [],
-      inviteCode:'',
-      id:''
+      inviteCode: "",
+      id: "",
+      appId: ""
     };
   },
   created() {
-    this.id = this.handleUrl().id - 0
-    this.inviteCode = this.handleUrl().inviteCode
+    this.id = this.handleUrl().id - 0;
+    this.inviteCode = this.handleUrl().inviteCode;
+    this.appId = this.handleUrl().appId;
     this.getData();
   },
   mounted() {
@@ -257,20 +259,20 @@ export default {
   methods: {
     handleUrl() {
       const url = location.href;
-      if(url.indexOf('?')>0) {
-        const querystr = url.split('?')[1].split('#')[0]
-        const obj = {}
-        if(querystr.indexOf('&') > 0) {
-          let queryArr = querystr.split('&')
-          for(let i =0;i<queryArr.length;i++) {
-            let itemStr = queryArr[i].split('=')
-            obj[itemStr[0]] = itemStr[1]
+      if (url.indexOf("?") > 0) {
+        const querystr = url.split("?")[1].split("#")[0];
+        const obj = {};
+        if (querystr.indexOf("&") > 0) {
+          let queryArr = querystr.split("&");
+          for (let i = 0; i < queryArr.length; i++) {
+            let itemStr = queryArr[i].split("=");
+            obj[itemStr[0]] = itemStr[1];
           }
-        }else {
-          let str = querystr.split('=')
-          obj[str[0]] = str[1]
+        } else {
+          let str = querystr.split("=");
+          obj[str[0]] = str[1];
         }
-        return obj
+        return obj;
       }
     },
     getData() {
@@ -291,7 +293,7 @@ export default {
           for (let i = 0; i < resList.length; i++) {
             imgList.push(baseUrl + resList[i].avatarImg);
           }
-          this.imgList = imgList
+          this.imgList = imgList;
         }
       });
     },
@@ -327,7 +329,11 @@ export default {
           key: "定金",
           val: data.depositAmt
         };
-        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7);
+        if (this.appId == 3) {
+          list.push(obj1, obj2, obj3, obj4, obj5);
+        } else {
+          list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7);
+        }
         this.sudokuList = list;
       } else if (type === 1) {
         // 房产项目
@@ -365,7 +371,11 @@ export default {
           key: "定金",
           val: data.depositAmt
         };
-        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        if (this.appId == 3) {
+          list.push(obj1, obj2, obj3, obj4, obj5, obj6);
+        } else {
+          list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        }
         this.sudokuList = list;
       } else if (type === 2) {
         // 投资项目
@@ -401,7 +411,11 @@ export default {
           key: "定金",
           val: data.depositAmt
         };
-        list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        if (this.appId == 3) {
+          list.push(obj1, obj2, obj3, obj4, obj5, obj6);
+        } else {
+          list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+        }
         this.sudokuList = list;
       }
     },
@@ -413,8 +427,10 @@ export default {
         };
       }
     },
-    handleClick(){
-      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
+    handleClick() {
+      window.open(
+        `http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`
+      );
     }
   }
 };
