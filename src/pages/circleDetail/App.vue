@@ -5,20 +5,20 @@
     <div class="container">
       <div class="member-info">
         <div class="img">
-          <img src="./images/avator.png" alt="avator">
+          <img :src="baseUrl + data.userImage.fileUrl" alt="avator">
         </div>
         <div class="desc">
           <div class="desc-top">
-            <div class="name">寒山潜龙</div>
-            <div class="pos">广州</div>
+            <div class="name">{{data.user.nickName}}</div>
+            <div class="pos">{{data.user.cityName}}</div>
           </div>
           <div class="desc-tips">
-            签名：个人感觉还剋吧！
+            签名：{{data.user.personalSignature}}
           </div>
         </div>
       </div>
       <div class="content">
-        <div class="parage">荷兰作为媲美北欧福利的花园国家，经济高度发达，教育资源丰富，13所大学位列全球200强，物价水平也低于多数欧洲国家，移民政策一经开放，便吸引众多国人申请，因其超高的性价比，更被称作"经济适用移民国"。近年来，国内的荷兰移民热度持续升温，2017年度申请人数、增长率均创新高。</div>
+        <div class="parage">{{data.immigrantCircle.content}}</div>
       </div>
     </div>
 
@@ -33,9 +33,6 @@
   </div>
 </template>
 <style lang="less" scoped>
-.circleDetail {
-  
-}
 .header {
   height: 90px;
   line-height: 90px;
@@ -49,7 +46,7 @@
   background: #f2f6f7;
 }
 .container {
-  filter: blur(20px);
+  filter: blur(10px);
   padding: 0 30px;
   .member-info {
     margin-top: 40px;
@@ -101,7 +98,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, .8);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +111,6 @@
     text-align: center;
     line-height: 100px;
     border-radius: 10px;
-    
   }
 }
 .animate-enter,
@@ -149,7 +145,9 @@ export default {
     return {
       modalIsShow: false,
       inviteCode: "",
-      appId:''
+      appId: "",
+      data: {},
+      baseUrl: baseUrl
     };
   },
   created() {
@@ -157,10 +155,14 @@ export default {
     if (url.indexOf("?") > 0) {
       let query = url.split("?")[1];
       this.inviteCode = qs.parse(query).inviteCode;
-      this.appId = qs.parse(query).appId
+      this.appId = qs.parse(query).appId;
     }
-    axios.get(`${baseUrl}/user/circles/${this.appId}`).then(res => {
-      console.log(res);
+    axios.get(`${baseUrl}/public/circles/${this.appId}`).then(res => {
+      if(res.status===200){
+        this.data = res.data.body.immigrantCircleDetailsBean
+        console.log(this.data)
+      }
+      
     });
   },
   methods: {
