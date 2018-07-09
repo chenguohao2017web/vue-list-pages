@@ -85,16 +85,26 @@
                     </div>
                     <div class="item-content">
                         <div class="item-content-img">
-                            <div class="tap" v-if="item.projectType==1">房产项目</div>
                             <div class="tap" v-if="item.projectType==0">移民项目</div>
+                            <div class="tap" v-if="item.projectType==1">房产项目</div>
                             <div class="tap" v-if="item.projectType==2">投资项目</div>
                             <img :src="baseUrl + item.projectImagePath" alt="img">
                         </div>
                         <div class="item-content-info">
                             <div class="info-title">{{item.projectName}}</div>
                             <div class="info-desc">价格：{{item.priceCcy}}{{item.minPriceAmt.split(',')[0]}}{{item.priceUnit}}</div>
-                            <div class="info-desc">近一年涨幅：{{item.houseAnnualIncreasePercent}}%</div>
-                            <div class="info-desc">预期回报：{{item.houseExpectedRecompense}}%</div>
+                            <template v-if="item.projectType==0">
+                              <div class="info-desc">身份类型：绿卡</div>
+                              <div class="info-desc">办理周期：{{item.projectPeriod}}{{item.projectPeriodUnit}}</div>
+                            </template>
+                            <template v-else-if="item.projectType==1">
+                              <div class="info-desc">近一年涨幅：{{item.houseAnnualIncreasePercent}}%</div>
+                              <div class="info-desc">预期回报：{{item.houseExpectedRecompense}}%</div>
+                            </template>
+                            <template v-else-if="item.projectType==2">
+                              <div class="info-desc">投资期限：{{item.investDuration}}</div>
+                              <div class="info-desc">预期年化：{{item.investAnnualRatio}}%</div>
+                            </template>
                         </div>
                     </div>
                 </div>

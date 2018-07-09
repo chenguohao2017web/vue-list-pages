@@ -327,7 +327,7 @@ export default {
         };
         const obj7 = {
           key: "定金",
-          val: data.depositAmt
+          val: data.depositAmt + '元'
         };
         if (this.appId == 3) {
           list.push(obj1, obj2, obj3, obj4, obj5);
@@ -369,7 +369,7 @@ export default {
         };
         const obj8 = {
           key: "定金",
-          val: data.depositAmt
+          val: data.depositAmt  + '元'
         };
         if (this.appId == 3) {
           list.push(obj1, obj2, obj3, obj4, obj5, obj6);
@@ -409,7 +409,7 @@ export default {
         };
         const obj8 = {
           key: "定金",
-          val: data.depositAmt
+          val: data.depositAmt  + '元'
         };
         if (this.appId == 3) {
           list.push(obj1, obj2, obj3, obj4, obj5, obj6);
