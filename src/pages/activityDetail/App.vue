@@ -51,7 +51,7 @@
             </div> -->
             <div class="wrap introdu">
                 <div class="item">
-                    <div class="title">活动简介</div>
+                    <div class="title">活动的标题</div>
                     <div class="text" v-html="data.description" ref="parage"></div>
                 </div>
             </div>

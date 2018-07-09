@@ -1,5 +1,6 @@
 <template>
-    <div class="home-intro" v-html="data" ref="content">
+    <div class="home-intro">
+      {{data}}
     </div>
 </template>
 <script>
@@ -20,7 +21,10 @@ export default {
   },
   methods: {
     getData() {
-      const url = `${baseUrl}/public/getConsultantTweets?consultantId=${
+      // const url = `${baseUrl}/public/getConsultantTweets?consultantId=${
+      //   this.consultantId
+      // }`;
+      const url = `${baseUrl}/public/consultantAllDynamic?consultantId=${
         this.consultantId
       }`;
       axios.get(url).then(res => {
@@ -52,3 +56,9 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.home-intro {
+  padding: 30px 30px;
+}
+</style>
+

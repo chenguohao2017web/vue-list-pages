@@ -11,6 +11,9 @@
                 <div class="more"></div>
             </div>
             <div class="text-header">{{item.title}}</div>
+            <div class="img-wrap">
+              <img :src=" baseUrl  + item.tweetsUrl" alt="">
+            </div>
             <div class="parage" v-html="item.content" ref="parage"></div>
         </div>
     </div>
@@ -81,6 +84,12 @@ export default {
       padding: 20px 0;
       font-size: 28px;
       color: #333333;
+    }
+    .img-wrap {
+      width:100%;
+      img {
+        width: 100%;
+      }
     }
     .parage {
       font-size: 24px;
