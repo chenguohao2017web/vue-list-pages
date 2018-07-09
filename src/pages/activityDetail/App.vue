@@ -43,15 +43,15 @@
                     <div class="text">{{data.activityPlace}}</div>
                 </div>
             </div>
-            <!-- <div class="wrap need">
+            <div class="wrap stream">
                 <div class="item">
-                    <div class="title">活动需求<span class="title2">(需要邀请项目方律师在场)</span></div>
-                    <div class="text">{{data.activityPreparation}}</div>
+                    <div class="title">活动流程</div>
+                    <div class="text parage" v-html="data.process" ref="parage2"></div>
                 </div>
-            </div> -->
+            </div>
             <div class="wrap introdu">
                 <div class="item">
-                    <div class="title">活动的标题</div>
+                    <div class="title">活动详情</div>
                     <div class="text" v-html="data.description" ref="parage"></div>
                 </div>
             </div>
@@ -84,11 +84,7 @@ import {handleDom} from '../../common/fn'
 import {baseUrl} from '../../common/api'
 import axios from 'axios'
 import qs from "qs";
-// import MyHeader from "@/components/header/Header";
 export default {
-  // components: {
-  //   MyHeader
-  // },
   data() {
     return {
       showMore: false,
@@ -113,6 +109,7 @@ export default {
           this.data = res.data.body
           this.$nextTick(()=>{
             handleDom(this.$refs.parage)
+            handleDom(this.$refs.parage2)
           })
         }
       })
@@ -127,17 +124,6 @@ export default {
       }
     },
     handleclick() {
-      // if (this.id) {
-      //   if ((this.id = 2)) {
-      //     window.open(
-      //       "https://itunes.apple.com/us/app/移居平台/id1394521017?l=zh&ls=1&mt=8"
-      //     );
-      //   } else if ((this.id = 3)) {
-      //     window.open(
-      //       "https://itunes.apple.com/us/app/移居/id1394522776?l=zh&ls=1&mt=8"
-      //     );
-      //   }
-      // }
       window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
     }
   }

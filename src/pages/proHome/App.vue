@@ -78,16 +78,19 @@
 .project {
   padding: 0 30px;
   .pro-top {
+    padding: 10px 0;
     border-bottom: 1px solid #ccc;
-    height: 96px;
-    line-height: 96px;
+    line-height: 1.5;
     display: flex;
     justify-content: space-between;
     .top-name {
       color: #333333;
       font-size: 36px;
+      flex:1;
     }
     .top-nums {
+      margin-left: 10px;
+      padding-top:5px;
       color: #999999;
       font-size: 24px;
     }
@@ -135,13 +138,6 @@
   .counselor-content {
     display: flex;
     padding-bottom: 20px;
-    // &:after {
-    //   content: "...";
-    //   display: block;
-    //   position: relative;
-    //   top: 40px;
-    //   right: -30px;
-    // }
     img {
       width: 70px;
       height: 70px;
@@ -397,11 +393,11 @@ export default {
         };
         const obj5 = {
           key: "募集期限",
-          val: data.projectLineWithBLOBs.investRaiseDuration
+          val: data.projectLineWithBLOBs.investDuration
         };
         const obj6 = {
           key: "预期年化",
-          val: data.projectLineWithBLOBs.investAnnualRatio
+          val: data.projectLineWithBLOBs.investAnnualRatio + '%'
         };
         const obj7 = {
           key: "佣金比例",
