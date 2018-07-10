@@ -45,11 +45,28 @@
     </div>
     <div class="cut-off"></div>
     <div class="more-wrap">
-      <div class="tab" ref="tab">
-        <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
-        <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
-        <!-- <router-link tag="div" :to="'/money'" class="tab-item">佣金</router-link>
-        <router-link tag="div" :to="'/data'" class="tab-item">项目资料</router-link> -->
+      <div ref="tab" :class="[{tab:projectType===0||projectType===2},{type1tab:projectType===1}]">
+        <template v-if="projectType==0">
+          <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
+          <router-link tag="div" :to="'/succ'" class="tab-item">成功案例</router-link>
+          <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
+          <router-link tag="div" :to="'/apply'" class="tab-item">申请条件</router-link>
+        </template>
+        <template v-else-if="projectType==1">
+          <div class="scroll-wrap">
+            <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
+            <router-link tag="div" :to="'/homeType'" class="tab-item">部分户型</router-link>
+            <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
+            <router-link tag="div" :to="'/mating'" class="tab-item">物业配套</router-link>
+            <router-link tag="div" :to="'/repair'" class="tab-item">装修情况</router-link>
+            <router-link tag="div" :to="'/around'" class="tab-item">周边设施</router-link>
+          </div>
+        </template>
+        <template v-else-if="projectType==2">
+           <router-link tag="div" :to="'/detail'" class="tab-item">详情</router-link>
+            <router-link tag="div" :to="'/homeType'" class="tab-item">过往表现</router-link>
+            <router-link tag="div" :to="'/flow'" class="tab-item">交易流程</router-link>
+        </template>
       </div>
       <div class="tab-content">
         <router-view :id="id"/>
@@ -86,11 +103,11 @@
     .top-name {
       color: #333333;
       font-size: 36px;
-      flex:1;
+      flex: 1;
     }
     .top-nums {
       margin-left: 10px;
-      padding-top:5px;
+      padding-top: 5px;
       color: #999999;
       font-size: 24px;
     }
@@ -179,7 +196,6 @@
     display: flex;
     height: 86px;
     line-height: 86px;
-    box-sizing: border-box;
     border-bottom: 1px solid #ccc;
     padding: 0 30px;
     .tab-item {
@@ -187,11 +203,32 @@
       text-align: center;
       font-size: 28px;
       color: #999999;
-      margin: 0 10px;
+      box-sizing: border-box;
       &.router-link-active {
         border-bottom: 8px solid #c3292b;
         color: #c3292b;
         font-weight: bold;
+      }
+    }
+  }
+  .type1tab {
+    height: 94px;
+    line-height: 86px;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    .scroll-wrap {
+      width: 1035px;
+      display: flex;
+      .tab-item {
+        width: 187.5px;
+        text-align: center;
+        font-size: 28px;
+        color: #999999;
+        &.router-link-active {
+          border-bottom: 8px solid #c3292b;
+          color: #c3292b;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -229,6 +266,7 @@
 }
 </style>
 <script>
+import Bscroll from "better-scroll";
 import { baseUrl } from "../../common/api";
 import axios from "axios";
 export default {
@@ -240,7 +278,8 @@ export default {
       imgList: [],
       inviteCode: "",
       id: "",
-      appId: ""
+      appId: "",
+      projectType: ""
     };
   },
   created() {
@@ -250,9 +289,18 @@ export default {
     this.getData();
   },
   mounted() {
-    this.changeTab();
+    // this.changeTab();
   },
   methods: {
+    scrollInit(type) {
+      if (type == 1) {
+        this.myScroll = new Bscroll(this.$refs.tab, {
+          click: true,
+          scrollX: true,
+          scrollY: false
+        });
+      }
+    },
     handleUrl() {
       const url = location.href;
       if (url.indexOf("?") > 0) {
@@ -277,7 +325,11 @@ export default {
       axios.get(url).then(res => {
         if (res.status === 200) {
           this.data = res.data.body;
+          this.projectType = res.data.body.projectType;
           this.handleSudokuList(res.data.body.projectType, res.data.body);
+          this.$nextTick(() => {
+            this.scrollInit(res.data.body.projectType);
+          });
         }
       });
       // 项目头像
@@ -323,7 +375,7 @@ export default {
         };
         const obj7 = {
           key: "定金",
-          val: data.depositAmt + '元'
+          val: data.depositAmt + "元"
         };
         if (this.appId == 3) {
           list.push(obj1, obj2, obj3, obj4, obj5);
@@ -365,7 +417,7 @@ export default {
         };
         const obj8 = {
           key: "定金",
-          val: data.depositAmt  + '元'
+          val: data.depositAmt + "元"
         };
         if (this.appId == 3) {
           list.push(obj1, obj2, obj3, obj4, obj5, obj6);
@@ -397,7 +449,7 @@ export default {
         };
         const obj6 = {
           key: "预期年化",
-          val: data.projectLineWithBLOBs.investAnnualRatio + '%'
+          val: data.projectLineWithBLOBs.investAnnualRatio + "%"
         };
         const obj7 = {
           key: "佣金比例",
@@ -405,12 +457,12 @@ export default {
         };
         const obj8 = {
           key: "定金",
-          val: data.depositAmt  + '元'
+          val: data.depositAmt + "元"
         };
         if (this.appId == 3) {
-          list.push(obj1, obj2, obj3, obj4, obj5, obj6);
+          list.push(obj1, obj2, obj3, obj4,  obj6);
         } else {
-          list.push(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8);
+          list.push(obj1, obj2, obj3, obj4,  obj6, obj7, obj8);
         }
         this.sudokuList = list;
       }
@@ -419,7 +471,7 @@ export default {
       const aDiv = this.$refs.tab.children;
       for (let i = 0; i < aDiv.length; i++) {
         aDiv[i].onclick = function() {
-          this.className = "tab-item router-link-active";
+          // this.className = "tab-item router-link-active";
         };
       }
     },

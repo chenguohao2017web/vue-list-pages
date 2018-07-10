@@ -1,6 +1,5 @@
 <template>
-  <div class="detail" v-html="data" ref="detail">
-  </div>
+  <div class="around" ref="around" v-html="data"></div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -10,7 +9,7 @@ export default {
   props: {
     id: Number
   },
-  data() {
+   data() {
     return {
       data: ""
     };
@@ -19,19 +18,12 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+          this.data += res.data.body.projectLineWithBLOBs.superiority;
         this.$nextTick(() => {
-          handleDom(this.$refs.detail);
+          handleDom(this.$refs.around);
         });
       }
     });
   }
-};
-</script>
-<style lang="less" scoped>
-.detail {
-  width: 100%;
-  overflow: hidden;
 }
-</style>
-
+</script>

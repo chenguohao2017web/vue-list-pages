@@ -3,8 +3,13 @@ import Vue from "vue";
 Vue.use(VueRouter)
 import Detail from '../components/Detail'
 import Flow from '../components/Flow'
-import Money from '../components/Money'
-import Data from '../components/Data'
+import Succ from '../components/Succ'
+import Apply from '../components/apply'
+
+import Around from '../components/Around'
+import Repair from '../components/Repair'
+import Mating from '../components/Mating'
+import HomeType from '../components/HomeType'
 export default new VueRouter({
   routes:[{
     path: '/',
@@ -16,10 +21,22 @@ export default new VueRouter({
     path: '/flow',
     component: Flow
   },{
-    path: '/money',
-    component: Money
+    path:'/succ',
+    component:Succ
+  }, {
+    path:'/apply',
+    component:Apply
   },{
-    path: '/data',
-    component: Data
+    path:'/around',
+    component:Around
+  },{
+    path:'/homeType',
+    component:HomeType
+  },{
+    path:'/repair',
+    component:Repair
+  },{
+    path:'/mating',
+    component:Mating
   }]
 })

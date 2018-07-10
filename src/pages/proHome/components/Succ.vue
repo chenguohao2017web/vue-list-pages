@@ -1,5 +1,5 @@
 <template>
-  <div class="data" v-html="data" ref="flow"></div>
+  <div class="money" v-html="data" ref="flow"></div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -15,11 +15,10 @@ export default {
     };
   },
   created() {
-    const url = `${baseUrl}/public/project-details?id=${this.id}`;
+    let url = `${baseUrl}/public/project-details?id=${this.id}`
     axios.get(url).then(res => {
       if (res.status === 200) {
         this.data = res.data.body.projectLineWithBLOBs.projectShowcase
-        this.data = ""
         this.$nextTick(() => {
           handleDom(this.$refs.flow);
         });

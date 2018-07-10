@@ -1,6 +1,5 @@
 <template>
-  <div class="detail" v-html="data" ref="detail">
-  </div>
+  <div class="data" v-html="data" ref="apply"></div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -19,19 +18,20 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+        this.data =
+          res.data.body.projectLineWithBLOBs.immigrantApplyRequirement;
         this.$nextTick(() => {
-          handleDom(this.$refs.detail);
+          handleDom(this.$refs.apply);
         });
       }
     });
   }
 };
 </script>
+
 <style lang="less" scoped>
-.detail {
+.flow {
   width: 100%;
   overflow: hidden;
 }
 </style>
-

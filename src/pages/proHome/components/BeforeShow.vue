@@ -1,6 +1,5 @@
 <template>
-  <div class="detail" v-html="data" ref="detail">
-  </div>
+  <div class="show" ref="show" v-html="data">过往表现</div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -19,9 +18,9 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+          this.data = res.data.body.projectLineWithBLOBs.projectShowcase;
         this.$nextTick(() => {
-          handleDom(this.$refs.detail);
+          handleDom(this.$refs.show);
         });
       }
     });
@@ -34,4 +33,3 @@ export default {
   overflow: hidden;
 }
 </style>
-

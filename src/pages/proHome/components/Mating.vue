@@ -1,6 +1,5 @@
 <template>
-  <div class="detail" v-html="data" ref="detail">
-  </div>
+  <div class="mating" ref="mating" v-html="data"></div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -19,9 +18,9 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+        this.data += res.data.body.projectLineWithBLOBs.houseProperty;
         this.$nextTick(() => {
-          handleDom(this.$refs.detail);
+          handleDom(this.$refs.mating);
         });
       }
     });
@@ -34,4 +33,3 @@ export default {
   overflow: hidden;
 }
 </style>
-

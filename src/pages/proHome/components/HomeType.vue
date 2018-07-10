@@ -1,7 +1,16 @@
 <template>
-  <div class="detail" v-html="data" ref="detail">
-  </div>
+  <div class="homeType" ref="homeType" v-html="data">部分户型</div>
 </template>
+<script>
+import { handleDom } from "../../../common/fn";
+import { baseUrl } from "../../../common/api";
+import axios from "axios";
+export default {
+  props: {
+    id: Number
+  },
+}
+</script>
 <script>
 import { handleDom } from "../../../common/fn";
 import { baseUrl } from "../../../common/api";
@@ -19,9 +28,9 @@ export default {
     const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.projectDecription;
+          this.data = res.data.body.projectLineWithBLOBs.projectShowcase;
         this.$nextTick(() => {
-          handleDom(this.$refs.detail);
+          handleDom(this.$refs.homeType);
         });
       }
     });
@@ -33,5 +42,3 @@ export default {
   width: 100%;
   overflow: hidden;
 }
-</style>
-

@@ -1,5 +1,5 @@
 <template>
-  <div class="money" v-html="data" ref="flow"></div>
+  <div class="repair" ref="repair" v-html="data">装修情况</div>
 </template>
 <script>
 import { handleDom } from "../../../common/fn";
@@ -15,22 +15,20 @@ export default {
     };
   },
   created() {
-    let url = `${baseUrl}/public/project-details?id=${this.id}`
+    const url = `${baseUrl}/public/project-details?id=${this.id}`;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.data = res.data.body.projectLineWithBLOBs.commissionStatement
-        this.data = ""
+          this.data = res.data.body.projectLineWithBLOBs.houseDecorateSituation;
         this.$nextTick(() => {
-          handleDom(this.$refs.flow);
+          handleDom(this.$refs.repair);
         });
       }
     });
   }
 };
 </script>
-
 <style lang="less" scoped>
-.flow {
+.detail {
   width: 100%;
   overflow: hidden;
 }
