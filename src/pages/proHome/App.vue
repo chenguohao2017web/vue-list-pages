@@ -266,6 +266,8 @@
 }
 </style>
 <script>
+
+import { redirctUrl } from "@/common/fn";
 import Bscroll from "better-scroll";
 import { baseUrl } from "../../common/api";
 import axios from "axios";
@@ -283,6 +285,7 @@ export default {
     };
   },
   created() {
+    redirctUrl()
     this.id = this.handleUrl().id - 0;
     this.inviteCode = this.handleUrl().inviteCode;
     this.appId = this.handleUrl().appId;

@@ -46,3 +46,12 @@ export function handleDom(el) {
 
   }, 50);
 }
+
+export function redirctUrl() {
+  let url = window.location.href
+  if(url.indexOf('&from=')) {
+    let newUrl = url.split('&from')[0]
+    window.open(newUrl,'_search')
+    return
+  }
+}

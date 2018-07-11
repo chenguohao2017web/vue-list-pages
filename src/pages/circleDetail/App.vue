@@ -131,6 +131,7 @@
 }
 </style>
 <script>
+import {redirctUrl} from '@/common/fn'
 import qs from "qs";
 import { baseUrl } from "../../common/api";
 import axios from "axios";
@@ -151,6 +152,7 @@ export default {
     };
   },
   created() {
+    redirctUrl()
     const url = location.href;
     if (url.indexOf("?") > 0) {
       let query = url.split("?")[1];
@@ -160,7 +162,6 @@ export default {
     axios.get(`${baseUrl}/public/circles/${this.appId}`).then(res => {
       if(res.status===200){
         this.data = res.data.body.immigrantCircleDetailsBean
-        console.log(this.data)
       }
       
     });

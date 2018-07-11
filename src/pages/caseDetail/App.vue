@@ -1,7 +1,5 @@
 <template>
   <div class="case">
-    <!-- <div class="header">案例详情</div> -->
-    <!-- <div class="cut-off"></div> -->
     <div class="container">
       <div class="title">
         {{data.caseTitle}}
@@ -59,7 +57,7 @@
 }
 </style>
 <script>
-import { handleDom, handleUrl } from "@/common/fn";
+import { handleDom, handleUrl, redirctUrl } from "@/common/fn";
 import { baseUrl } from "@/common/api";
 import axios from "axios";
 export default {
@@ -70,6 +68,7 @@ export default {
     };
   },
   created() {
+    redirctUrl()
     const query = handleUrl();
     this.caseId = query.caseId;
     this.getData();

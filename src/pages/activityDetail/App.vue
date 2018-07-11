@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import {handleDom} from '../../common/fn'
+import {handleDom,redirctUrl} from '../../common/fn'
 import {baseUrl} from '../../common/api'
 import axios from 'axios'
 import qs from "qs";
@@ -96,6 +96,7 @@ export default {
     };
   },
   created() {
+    redirctUrl()
     const query = this.handleUrl();
     this.id = query.id;
     this.inviteCode = query.inviteCode

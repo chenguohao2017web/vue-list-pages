@@ -91,12 +91,13 @@
 }
 </style>
 <script>
-import {handleUrl,handleDom} from '../../common/fn'
+import {handleUrl,handleDom, redirctUrl} from '../../common/fn'
 import { baseUrl } from "../../common/api";
 import axios from "axios";
 export default {
   name: "CicleDetail",
   created() {
+    redirctUrl()
     this.query = handleUrl();
     this.getData();
   },

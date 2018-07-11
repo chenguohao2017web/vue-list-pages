@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {handleDom} from '../../common/fn'
+import {handleDom, redirctUrl} from '../../common/fn'
 import qs from 'qs'
 import axios from "axios";
 // import MyHeader from "@/components/header/Header";
@@ -39,6 +39,7 @@ export default {
   //   MyHeader
   // },
   created() {
+    redirctUrl()
     const query = this.handleUrl();
     this.id = query.id
     this.inviteCode = query.inviteCode

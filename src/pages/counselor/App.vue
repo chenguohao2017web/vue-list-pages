@@ -132,10 +132,12 @@
 </template>
 <script>
 import axios from "axios";
+import { redirctUrl } from "@/common/fn";
 import { baseUrl } from "../../common/api";
 export default {
   name: "Home",
   created() {
+    redirctUrl()
     const obj = this.handleUrl();
     this.id = obj.id;
     this.inviteCode = obj.inviteCode;

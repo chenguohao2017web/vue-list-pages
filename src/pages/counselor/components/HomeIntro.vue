@@ -1,6 +1,5 @@
 <template>
-    <div class="home-intro">
-      {{data}}
+    <div class="home-intro" v-html="data" ref="content">
     </div>
 </template>
 <script>
@@ -21,9 +20,6 @@ export default {
   },
   methods: {
     getData() {
-      // const url = `${baseUrl}/public/getConsultantTweets?consultantId=${
-      //   this.consultantId
-      // }`;
       const url = `${baseUrl}/public/consultantAllDynamic?consultantId=${
         this.consultantId
       }`;
