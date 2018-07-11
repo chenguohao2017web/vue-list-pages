@@ -49,9 +49,8 @@ export function handleDom(el) {
 
 export function redirctUrl() {
   let url = window.location.href
-  if(url.indexOf('&from=')) {
+  if(url.indexOf('&from') !== -1) {
     let newUrl = url.split('&from')[0]
-    window.open(newUrl,'_search')
-    return
+    window.location.href = newUrl
   }
 }
