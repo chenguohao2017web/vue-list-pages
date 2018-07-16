@@ -17,9 +17,9 @@
           </div>
         </div>
       </div>
-      <div class="pic">
+      <!-- <div class="pic">
         <img :src="baseUrl + data.profileBannerUrl" alt="banner">
-      </div>
+      </div> -->
       <div class="content" v-html="data.content" ref="content">
       </div>
     </div>
