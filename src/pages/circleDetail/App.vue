@@ -162,7 +162,7 @@ export default {
       this.id = obj.id;
     }
     axios.get(`${baseUrl}/public/circles/${this.id}`).then(res => {
-      if (res.status === 200) {
+      if (res.data.body) {
         this.data = res.data.body.immigrantCircleDetailsBean
       }
     });
