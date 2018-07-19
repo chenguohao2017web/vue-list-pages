@@ -6,20 +6,30 @@
       </div>
       <div class="title-info">
         <div class="time">{{data.publishTime}}</div>
-        <div class="nums">{{data.viewCount}}</div>
+        <div class="nums">{{data.viewCount}}阅读</div>
       </div>
       <div class="content">
         <div class="parage" v-html="data.content" ref="parage"></div>
       </div>
     </div>
+    <div class="footer" @click="handleClick">
+      查看详情
+    </div>
   </div>
 </template>
 <style lang="less" scoped>
-.header {
+.case {
+  padding-bottom:90px;
+}
+.footer {
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
   height: 90px;
   line-height: 90px;
   text-align: center;
-  background: linear-gradient(to right, #c3292b, #fb3b37);
+  background: #c3292b;
   color: #fff;
   font-size: 32px;
 }
@@ -74,6 +84,9 @@ export default {
     this.getData();
   },
   methods: {
+    handleClick(){
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
+    },
     getData() {
       const url = `${baseUrl}/public/getSuccessCaseDetail?caseId=${
         this.caseId

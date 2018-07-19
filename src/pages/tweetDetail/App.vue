@@ -1,6 +1,5 @@
 <template>
   <div class="tweetDetail">
-    <!-- <div class="header">推文详情</div> -->
     <div class="cut-off"></div>
     <div class="container">
       <div class="member-info">
@@ -17,20 +16,27 @@
           </div>
         </div>
       </div>
-      <!-- <div class="pic">
-        <img :src="baseUrl + data.profileBannerUrl" alt="banner">
-      </div> -->
       <div class="content" v-html="data.content" ref="content">
       </div>
+    </div>
+    <div class="footer" @click="handleClick">
+      查看详情
     </div>
   </div>
 </template>
 <style lang="less" scoped>
-.header {
+.tweetDetail {
+  padding-bottom:90px;
+}
+.footer {
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
   height: 90px;
   line-height: 90px;
   text-align: center;
-  background: linear-gradient(to right, #c3292b, #fb3b37);
+  background: #c3292b;
   color: #fff;
   font-size: 32px;
 }
@@ -100,15 +106,20 @@ export default {
     redirctUrl()
     this.query = handleUrl();
     this.getData();
+    this.inviteCode = this.query.inviteCode
   },
   data() {
     return {
       data: {},
       baseUrl: baseUrl,
-      query: {}
+      query: {},
+      inviteCode:''
     };
   },
   methods: {
+    handleClick(){
+      window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
+    },
     getData() {
       const url = `${baseUrl}/public/tweetsDetail?tweetsId=${
         this.query.tweetsId
