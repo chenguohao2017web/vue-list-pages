@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+    <div class="footer" @click="handleClick">查看详情</div>
   </div>
 </template>
 <style lang="less" scoped>
@@ -120,6 +121,18 @@
     }
   }
 }
+.footer {
+  position: fixed;
+  left:0;bottom:0;
+  background: #a30202;
+  width: 100%;
+  height:90px;
+  line-height: 90px;
+  color: #fff;
+  text-align: center;
+  font-size: 28px;
+  cursor: pointer;
+}
 .modal {
   position: fixed;
   top: 0;
@@ -188,6 +201,7 @@ export default {
       this.appId = obj.appId;
       this.inviteCode = obj.inviteCode;
       this.id = obj.id;
+      this.inviteCode = obj.inviteCode
     }
     axios.get(`${baseUrl}/public/circles/${this.id}`).then(res => {
       if (res.data.body) {
