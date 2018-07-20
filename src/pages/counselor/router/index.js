@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 import HomeIntro from '../components/HomeIntro'
 import HomeActicle from '../components/HomeActicle'
 import HomeActivity from '../components/HomeActivity'
+import circle from '../components/circle'
 
 export default new VueRouter({
     routes: [
@@ -26,6 +27,10 @@ export default new VueRouter({
             path: '/acticle',
             name: 'HomeActicle',
             component: HomeActicle
+        }, 
+        {
+            path: '/circle',
+            component: circle
         }
     ]
 })

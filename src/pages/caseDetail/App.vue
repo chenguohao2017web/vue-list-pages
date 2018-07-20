@@ -74,13 +74,15 @@ export default {
   data() {
     return {
       data: {},
-      caseId: ""
+      caseId: "",
+      inviteCode:''
     };
   },
   created() {
     redirctUrl()
     const query = handleUrl();
     this.caseId = query.caseId;
+    this.inviteCode = query.inviteCode
     this.getData();
   },
   methods: {

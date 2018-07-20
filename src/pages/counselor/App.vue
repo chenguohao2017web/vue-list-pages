@@ -157,6 +157,10 @@ export default {
           linkUrl: "/acticle",
           text: "推文",
           isActive: false
+        },{
+          linkUrl: "/circle",
+          text: "圈子",
+          isActive: false
         },
         {
           linkUrl: "/activity",

@@ -436,7 +436,7 @@ export default {
         };
         const obj2 = {
           key: "投资期限",
-          val: data.priceCcy + data.projectLineWithBLOBs.investDuration
+          val: data.projectLineWithBLOBs.investDuration
         };
         const obj3 = {
           key: "国家或和城市",

@@ -1,7 +1,5 @@
 <template>
   <div class="circleDetail">
-    <!-- <div class="header">圈子详情</div> -->
-    <!-- <div class="cut-off"></div> -->
     <div class="container">
       <div class="member-info">
         <div class="img">
@@ -19,17 +17,19 @@
       </div>
       <div class="content">
         <div class="parage">{{data.immigrantCircle.content}}</div>
+        <div class="img-group">
+          <div class="img-wrap" v-for="(item, index) of data.images" :key="index">
+              <img :src="baseUrl + item.fileUrl" alt="img" >
+          </div>
+        </div>
+        <div class="others" v-if="data.objectVo.objectUrl">
+          <div class="img-wrap">
+            <img :src="baseUrl + data.objectVo.objectUrl" alt="img">
+          </div>
+          <div class="text">{{ data.objectVo.objectName}}</div>
+        </div>
       </div>
     </div>
-
-    <!-- modal -->
-    <transition name="animate">
-    <div class="modal" v-show="modalIsShow">
-        <transition name="drop">
-          <div class="modal-inner" v-show="modalIsShow" @click="handleClick">请登录</div>
-        </transition>
-    </div>
-    </transition>
   </div>
 </template>
 <style lang="less" scoped>
@@ -46,7 +46,7 @@
   background: #f2f6f7;
 }
 .container {
-  filter: blur(10px);
+  // filter: blur(10px);
   padding: 0 30px;
   .member-info {
     margin-top: 40px;
@@ -89,6 +89,34 @@
       font-size: 30px;
       color: #333333;
       line-height: 1.5;
+    }
+    .img-group {
+      margin-top: 20px;
+      display: flex;
+      .img-wrap {
+        flex: 1;
+        margin-right: 20px;
+        &:last-child {
+          margin-right: 0;
+        }
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .others {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: #eee;
+      .img-wrap {
+        margin-right: 10px;
+        width: 200px;
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }
@@ -163,7 +191,7 @@ export default {
     }
     axios.get(`${baseUrl}/public/circles/${this.id}`).then(res => {
       if (res.data.body) {
-        this.data = res.data.body.immigrantCircleDetailsBean
+        this.data = res.data.body.immigrantCircleDetailsBean;
       }
     });
   },
