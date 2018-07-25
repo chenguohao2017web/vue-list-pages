@@ -6,7 +6,7 @@
     <div class="project">
       <div class="pro-top">
         <div class="top-name">{{data.projectName}}</div>
-        <div class="top-nums">数量：{{data.minPriceAmt}}</div>
+        <div class="top-nums">数量：{{data.totalQuantity-data.soldQuantity}}</div>
       </div>
       <div class="pro-content">
         <div class="sudoku-item" v-for="(item,index) of sudokuList" :key="index">
