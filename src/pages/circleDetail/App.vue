@@ -22,11 +22,11 @@
               <img :src="baseUrl + item.fileUrl" alt="img" >
           </div>
         </div>
-        <div class="others" v-if="data.objectVo.objectUrl">
+        <div class="others">
           <div class="img-wrap">
-            <img :src="baseUrl + data.objectVo.objectUrl" alt="img">
+            <img :src="baseUrl + data.objectVo.objectUrl" alt="img" v-if="data.objectVo">
           </div>
-          <div class="text">{{ data.objectVo.objectName}}</div>
+          <div class="text" v-if="data.objectVo">{{ data.objectVo.objectName}}</div>
         </div>
       </div>
     </div>
@@ -188,7 +188,9 @@ export default {
       modalIsShow: false,
       inviteCode: "",
       appId: "",
-      data: {},
+      data: {
+        objectVo:{}
+      },
       baseUrl: baseUrl
     };
   },
@@ -205,7 +207,9 @@ export default {
     }
     axios.get(`${baseUrl}/public/circles/${this.id}`).then(res => {
       if (res.data.body) {
+        
         this.data = res.data.body.immigrantCircleDetailsBean;
+        console.log(this.data)
       }
     });
   },
