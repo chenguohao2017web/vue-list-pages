@@ -22,7 +22,7 @@
               <img :src="baseUrl + item.fileUrl" alt="img" >
           </div>
         </div>
-        <div class="others">
+        <div class="others" v-show="data.objectVo.objectName">
           <div class="img-wrap">
             <img :src="baseUrl + data.objectVo.objectUrl" alt="img" v-if="data.objectVo">
           </div>
@@ -34,6 +34,9 @@
   </div>
 </template>
 <style lang="less" scoped>
+.circleDetail {
+  padding-bottom:90px;
+}
 .header {
   height: 90px;
   line-height: 90px;
@@ -47,7 +50,6 @@
   background: #f2f6f7;
 }
 .container {
-  // filter: blur(10px);
   padding: 0 30px;
   .member-info {
     margin-top: 40px;
