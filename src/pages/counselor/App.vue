@@ -121,7 +121,7 @@
                         @click.native="changeTab(index)"
             >{{item.text}}</router-link>
         </div>
-        <router-view :consultantId="consultantId" />
+        <router-view :consultantId="consultantId" :inviteCode="inviteCode" />
         <div class="footer" @click="handleclick">
             <div class="inner">
                 <div class="btn ask">在线咨询</div>

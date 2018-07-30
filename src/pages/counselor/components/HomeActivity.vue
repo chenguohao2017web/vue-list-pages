@@ -34,13 +34,15 @@ export default {
         }
     },
     props:{
-        consultantId:Number
+        consultantId:Number,
+        inviteCode:Number
     },
     mounted(){
         this.getData()
     },
     methods: {
         getData(){
+            console.log(this.inviteCode)
             const url = `${baseUrl}/public/get-initiate-activities?consultantId=${this.consultantId}&page=1&pageSize=10`
             axios.get(url).then(res=>{
                 if(res.status===200) {
@@ -49,7 +51,7 @@ export default {
             })
         },
         handleClick(){
-            window.open(`http://api.migrantju.cn/indexReg.html`)
+            window.open(`http://api.migrantju.cn/indexReg.html?inviteCode=${this.inviteCode}`)
         }
     }
 }
